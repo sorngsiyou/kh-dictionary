@@ -1,0 +1,113 @@
+
+<%- include('header.ejs') %>
+<style>
+ 
+</style>
+    <div class="container-fluid p-0">
+      <div class="row">
+        <div class="col-12">
+          <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#"><i class="fa-solid fa-spell-check"></i> វចនានុក្រមរូបភាព អង់គ្លេស-ខ្មែរ</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                  
+                  <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fa-solid fa-user"></i> សូមស្វាគមន៍: <%- loginedUser %></a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="home/logout" class="nav-link text-danger fw-bold" type="submit"><i class="fa-solid fa-right-from-bracket"></i> ចាកចេញ</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-12 col-md-12 col-lg-8">
+          <% if (successFlash && successFlash.length > 0) { %>
+            <div id="autoCloseAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+              <%= successFlash[0] %>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <% } %>
+          <form action="/home" method="post"> 
+            <div class="mb-3">
+              <label for="englishText" class="form-label">ពាក្យអង់គ្លេស/<span class="text-danger">English Word</span></label>
+              <input type="text" class="form-control" id="englishText" name="englishText" required>
+            </div>
+            <div class="mb-3">
+              <label for="khmerText" class="form-label">ពាក្យខ្មែរ/<span class="text-danger">Khmer Word</span></label>
+              <input type="text" class="form-control" id="khmerText" name="khmerText" required>
+            </div>
+            <div class="mb-3">
+              <label for="imageLink" class="form-label">តំណរភ្ជាប់រូបភាព/<span class="text-danger">Picture Link</span></label>
+              <input type="text" class="form-control" id="imageLink" name="imageLink" required>
+            </div>
+            <div class="form-floating mb-3">
+              <textarea class="form-control" placeholder="បញ្ចូលព័ត៌មានបន្ថែម" id="description" name="description" style="height: 100px"></textarea>
+              <label for="description">ការអធិប្បាយ/<span class="text-danger">Description</span></label>
+            </div>
+            <input type="submit" class="btn btn-primary" value="រក្សាទុកទិន្នន័យ">
+          </form>
+        </div>
+        <div class="col-12 col-md-12 col-lg-4">
+          <img id="imageIcon" class="img-fluid w-100" src="/images/defaulf-picture.png" alt="Default Image">
+        </div>
+      </div>
+    </div>
+
+    <div class="container pt-5">
+      <div class="row">
+        <div class="col-12">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>ល.រ</th>
+                <th>ពាក្យអង់គ្លេស</th>
+                <th>ពាក្យខ្មែរ</th>
+                <th>ការអធិប្បាយ</th>
+                <th>បញ្ចូលទិន្នន័យដោយ</th>
+                <th>មុខងារ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% let i = 1 %>
+              <% allData.forEach((data)=>{ %>
+                <tr>
+                  <td><%= i++ %></td>
+                  <td><%- data.englishText %></td>
+                  <td><%- data.khmerText %></td>
+                  <td><%- data.description %></td>
+                  <td><%- data.userId %></td>
+                  <td><a href="/home/delete/<%- data._id %>" class="btn btn-sm btn-danger">លុប</a></td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+          
+          <p>ទំព័រទី <%= currentPage %> នៃទំព័រសរុប <%= totalPages %></p>
+    <nav>
+      <% if (currentPage > 1) { %>
+        <a href="?page=<%= currentPage - 1 %>">ថយក្រោយ</a>
+      <% } %>
+      <% if (currentPage < totalPages) { %>
+        <a href="?page=<%= currentPage + 1 %>">ទៅមុខ</a>
+      <% } %>
+    </nav>
+
+
+        </div>
+      </div>
+    </div>
+
+
+<%- include('footer.ejs') %>
